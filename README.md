@@ -1,4 +1,4 @@
-# JANJ Project
+# Bulldawg Assistant Project
 Speech to Text Project. 
 
 Made at Codehub at UGA. 
