@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import messagebox
 from urllib.request import urlopen
 from datetime import date
+from datetime import datetime
 import requests
 import calendar
 
@@ -15,6 +16,9 @@ EAST_CAMPUS = 4921
 HEALTH_SCIENCE = 2611
 my_date = date.today()
 weekday = calendar.day_name[my_date.weekday()]
+now = datetime.now()
+hour = now.hour
+print(hour)
 
 if __name__ == "__main__":
   gui = Tk()
@@ -132,35 +136,34 @@ def dining_occupancy(input):
       print(100 - snelling_num)
       messagebox.showinfo('information', "Snelling has " + str(100 - snelling_num) + "% occupacy left")
 
-  elif(user_dining.lower() == "niche" and weekday in niche_open):
+  elif((user_dining.lower() == "niche" and weekday in niche_open) and hour < 14):
       print(100 - niche_num)
       messagebox.showinfo('information', "Niche has " + str(100 - niche_num) + "% occupacy left")
   else:
-      
-      messagebox.showinfo('information', "Either this dining does not exists or it is closed today. Try Bolton or Village Summit")
-
+      messagebox.showinfo('information', "This dining is closed today. Try Bolton, Village Summit, Snelling, or OHouse")
+  
 def check_question(input):
    possible_dates = ["date", "today", "month", "day", "today's"]
-   possible_bus = ["Central", "Loop", "East", "Campus", "Science", "Health"]
-   possible_dining = ["Snelling", "Bolton", "OHouse" "House", "Village", "Summit", "Joe", "Frank", "Niche"]
+   possible_bus = ["central", "loop", "east", "campus", "science", "health"]
+   possible_dining = ["snelling", "bolton", "ohouse", "house", "village", "summit", "joe", "frank", "niche"]
 
    for i in input:
      if i in possible_dates:
        return "date"
-     elif i in possible_bus:
-       return i
-     elif i in possible_dining:
-       return i
+     elif i.lower() in possible_bus:
+       return i.lower()
+     elif i.lower() in possible_dining:
+       return i.lower()
   
 
 def speak():
   recognizer = sr.Recognizer()
   print("Say something for 5 seconds:")
   with sr.Microphone() as source:
-    #audio_data = recognizer.record(source, duration=5) # just made it five seconds here for testing. 
+    audio_data = recognizer.record(source, duration=5) # just made it five seconds here for testing. 
     print("Recognizing...")
-    #text = recognizer.recognize_google(audio_data)
-    text = "What is the dining occupancy at Bolton"
+    text = recognizer.recognize_google(audio_data)
+    #text = "what is the dining capacity at our house"
     print("Your Input:" , text)
    
 
@@ -171,14 +174,14 @@ def speak():
     if output == "date":
       d2 = my_date.strftime("%B %d, %Y")
       messagebox.showinfo('information', d2)
-    elif output == "Central":
+    elif output == "central":
       bus_occupancy("Central Loop")
-    elif output == "East":
+    elif output == "east":
       bus_occupancy("East Campus")
-    elif output == "Health":
+    elif output == "health":
       bus_occupancy("Health Science")
     else:
       dining_occupancy(output)
 
-#gui.mainloop()
-speak()
+gui.mainloop()
+#speak()
