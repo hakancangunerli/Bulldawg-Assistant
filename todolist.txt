@@ -1,5 +1,0 @@
-Get the dataset
-Download and clean the dataset to be ready to use
-Do extensive research on neural networks
-Learn to implement the network
-Implement it!
